@@ -20,8 +20,6 @@ function reject($entry)
     //   exit();    // exit the current script, no value is returned
 }
 
-
-
 // Handle form submission.
 // If username and passwasd have been entered, perform authentication.
 // (for this activity, assume that we just check whether the data are entered, no sophisticated authentication is performed. 

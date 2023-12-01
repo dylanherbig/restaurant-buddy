@@ -1,7 +1,21 @@
 <?php
 require("connect-db.php");
-require("eatery-db.php");
+require("eatery/eatery-db.php");
+require("auth/user-db.php");
 include("header.html");
+
+// check if user is logged in, if not redirect to login.php
+$user = $_COOKIE["user"];
+$password = $_COOKIE["password"];
+
+print_r($_COOKIE["user"]);
+echo($password);
+
+if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
+    echo("something");
+    // Redirect the browser to another page using the header() function to specify the target URL
+    // header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+}
 
 // fetch all eateries
 $list_of_eateries = getAllEateries();

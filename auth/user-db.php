@@ -29,7 +29,7 @@ function checkUserExists($username) {
   }
 }
 
-function login($username, $password) {
+function checkCredentials($username, $password) {
   global $db;
   $query = "select passwordHash from user where username = :username";
   $statement = $db->prepare($query);
@@ -37,30 +37,27 @@ function login($username, $password) {
   $statement->execute();
   $passwordCheck = $statement->fetch();
   if (password_verify($password, $passwordCheck[0])) {
-    return true;
+    return [true, $passwordCheck[0]];
   } else {
-    return false;
+    return [false, ""];
   }
 }
 
-function updateFriendByName($name, $major, $year) {
-    global $db;
-    $query = "update friends set major=:major, year=:year where name=:name";
-    $statement = $db->prepare($query); 
-    $statement->bindValue(':name', $name);
-    $statement->bindValue(':major', $major);
-    $statement->bindValue(':year', $year);
-    $statement->execute();
-    $statement->closeCursor();
-}
-
-function deleteFriend($name) {
-    global $db;
-    $query = "delete from friends where name=:name";
-    $statement = $db->prepare($query); 
-    $statement->bindValue(':name', $name);
-    $statement->execute();
-    $statement->closeCursor();
+function checkUserPassword($username, $passwordHash) { 
+  global $db;
+  $query = "select passwordHash from user where username = :username";
+  $statement = $db->prepare($query);
+  $statement->bindValue(":username", $username);
+  $statement->execute();
+  $passwordCheck = $statement->fetch();
+  echo("whats going on");
+  if ($passwordHash == $passwordCheck[0]) {
+    echo("help");
+    return true;
+  } else {
+    echo("here");
+    return false;
+  }
 }
 
 ?>

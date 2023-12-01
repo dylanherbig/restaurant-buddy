@@ -38,14 +38,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) > 0) {
          reject('Password');
       else {
 
-         $result = login($user, $password);
+         $result = checkCredentials($user, $password);
 
-         if ($result) {
+         if ($result[0]) {
             // setcookie(name, value, expiery-time)
             // setcookie() function stores the submitted fields' name/value pair
             setcookie('user', $user, time() + 3600);
-            setcookie('password', $password, time() + 3600);  // create a hash conversion of password values using md5() function  
-            $error = "Username or password incorrect";
+            setcookie('password', $result[1], time() + 3600);  // create a hash conversion of password values using md5() function  
 
             // Redirect the browser to another page using the header() function to specify the target URL
             header('Location: https://www.cs.virginia.edu/~dch6auf/project/index.php');
