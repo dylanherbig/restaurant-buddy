@@ -8,13 +8,10 @@ include("header.html");
 $user = $_COOKIE["user"];
 $password = $_COOKIE["password"];
 
-print_r($_COOKIE["user"]);
-echo($password);
-
 if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
     echo("something");
     // Redirect the browser to another page using the header() function to specify the target URL
-    // header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
 }
 
 // fetch all eateries

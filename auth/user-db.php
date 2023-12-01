@@ -36,6 +36,7 @@ function checkCredentials($username, $password) {
   $statement->bindValue(":username", $username);
   $statement->execute();
   $passwordCheck = $statement->fetch();
+
   if (password_verify($password, $passwordCheck[0])) {
     return [true, $passwordCheck[0]];
   } else {
@@ -50,12 +51,9 @@ function checkUserPassword($username, $passwordHash) {
   $statement->bindValue(":username", $username);
   $statement->execute();
   $passwordCheck = $statement->fetch();
-  echo("whats going on");
   if ($passwordHash == $passwordCheck[0]) {
-    echo("help");
     return true;
   } else {
-    echo("here");
     return false;
   }
 }

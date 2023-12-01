@@ -11,40 +11,28 @@ require("user-db.php");
 // stored in a cookie. This might be used to stored username and password details
 // to be used across a website
 
-// Define a function to handle failed validation attempts
-function reject($entry)
-{
-   echo "Reject $entry <br/>";
-   //   echo 'provide message why the user cannot proceed <br/>';
-   //   exit();    // exit the current script, no value is returned
-}
 
 // Handle form submission.
 // If username and passwasd have been entered, perform authentication.
 // (for this activity, assume that we just check whether the data are entered, no sophisticated authentication is performed. 
 if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) > 0) {
 
-   // If username contains only alphanumeric data, proceed to verify the password;
-   // otherwise, reject the username and force re-login.
-   $user = trim($_POST['username']);
-   if (!ctype_alnum($user))   // ctype_alnum() check if the values contain only alphanumeric data
-      reject('User Name');
-
    // If password is entered and contains only alphanumeric data, set cookies and redirect the user to survey instruction page;
    // otherwise, reject the password and force re-login.
    if (isset($_POST['password'])) {
       $password = trim($_POST['password']);
       if (!ctype_alnum($password))
-         reject('Password');
+         $_SESSION['error'] = "Password can only contain alphanumeric characters";
       else {
 
+         $user = trim($_POST['username']);
          $result = checkCredentials($user, $password);
 
          if ($result[0]) {
             // setcookie(name, value, expiery-time)
             // setcookie() function stores the submitted fields' name/value pair
-            setcookie('user', $user, time() + 3600);
-            setcookie('password', $result[1], time() + 3600);  // create a hash conversion of password values using md5() function  
+            setcookie('user', $user, time() + 3600, '/', '.virginia.edu');
+            setcookie('password', $result[1], time() + 3600, '/', '.virginia.edu');   // store the password hash as a cookie
 
             // Redirect the browser to another page using the header() function to specify the target URL
             header('Location: https://www.cs.virginia.edu/~dch6auf/project/index.php');
