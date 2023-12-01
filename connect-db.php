@@ -82,9 +82,6 @@ $dsn = "mysql:host=$host;dbname=$dbname";
 try  {
 //  $db = new PDO("mysql:host=$hostname;dbname=db-demo", $username, $password);
    $db = new PDO($dsn, $username, $password);
-   
-   // dispaly a message to let us know that we are connected to the database 
-   echo "<p>You are connected to the database: $dsn</p>";
 }
 catch (PDOException $e)  {   // handle a PDO exception (errors thrown by the PDO library){
    // Call a method from any object, use the object's name followed by -> and then method's name
