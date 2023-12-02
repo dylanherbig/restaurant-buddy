@@ -9,7 +9,6 @@ $user = $_COOKIE["user"];
 $password = $_COOKIE["password"];
 
 if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
-    echo("something");
     // Redirect the browser to another page using the header() function to specify the target URL
     header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
 }

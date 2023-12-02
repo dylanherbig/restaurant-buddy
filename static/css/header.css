@@ -1,0 +1,27 @@
+nav {
+    background-color: hsl(158, 39%, 34%);
+    color: #fff;
+}
+
+button {
+    background-color: red;
+    border: none;
+    border-radius: 5px;
+}
+
+button:hover {
+    background-color: white;
+}
+
+a:link {
+    text-decoration: none;
+    color: #fff;
+}
+
+a.btn {
+    color: hsl(158, 39%, 34%);
+}
+
+a.btn:hover {
+    color: red;
+}
