@@ -30,16 +30,27 @@ function deleteFriend($name) {
     $statement->closeCursor();
 }
 
-function addEatery($name, $email, $description){
+function addEatery($id, $name, $email, $description){
     global $db;
-    $query = "insert into eatery (name, email, description)
-    VALUES (:name, :email, :description)";
+    $query = "insert into eatery (ID, name, email, description)
+    VALUES (:id, :name, :email, :description)";
     $statement = $db->prepare($query); 
+    $statement->bindValue(':id', $id);
     $statement->bindValue(':name', $name);
     $statement->bindValue(':email', $email);
     $statement->bindValue(':description', $description);
     $statement->execute();
     $statement->closeCursor();
+}
+
+function getMaxIDFromEatery(){
+    global $db;
+    $query = "select MAX(ID) FROM eatery";
+    $statement = $db->prepare($query); 
+    $statement->execute();
+    $results = $statement->fetchAll();
+    $statement->closeCursor();
+    return $results;
 }
 
 function getEatery($name, $email){
@@ -53,5 +64,31 @@ function getEatery($name, $email){
     $statement->closeCursor();
     return $results;
 }
+
+// function updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone){
+//     global $db;
+//     $query = "UPDATE eatery 
+//     SET description=:new_description,
+//     cuisine=:new_cusine,
+//     street_address=:new_street_address,
+//     city=:new_city,
+//     state=:new_state,
+//     zip_code=:new_zip_code,
+//     phone=:new_phone,
+//     WHERE email=:email AND name=:name;
+    
+//     $statement = $db->prepare($query); 
+//     $statement->bindValue(':name', $name);
+//     $statement->bindValue(':email', $email);
+//     $statement->bindValue(':new_description', $new_description);
+//     $statement->bindValue(':new_cuisine', $new_cuisine);
+//     $statement->bindValue(':new_street_address', $new_street_address);
+//     $statement->bindValue(':new_city', $new_city);
+//     $statement->bindValue(':new_state', $new_state);
+//     $statement->bindValue(':new_zip_code', $new_zip_code);
+//     $statement->bindValue(':new_phone', $new_phone);
+//     $statement->execute();
+//     $statement->closeCursor();
+// }
 
 ?>
