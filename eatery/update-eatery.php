@@ -17,9 +17,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
         $new_state = $_POST['new_state'];
         $new_zip_code = $_POST['new_zip_code'];
         $new_phone = $_POST['new_phone'];
+        $new_price = $_POST['new_price'];
 
 
-        updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone); 
+        updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone, $new_price); 
         // echo ("got there4");
         // header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
 
@@ -82,41 +83,64 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
                         <form action="update-eatery.php" method="post">
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">Eatery name</label>
                                 <input type="text" name="name" class="form-control" required />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">Eatery email address</label>
                                 <input type="text" name="email" class="form-control" required />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New eatery description</label>
                                 <input type="text" name="new_description" class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label">New cuisine</label>
-                                <input type="text" name="new_cuisine" class="form-control" />
-                            </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New street address</label>
                                 <input type="text" name="new_street_address" class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New city</label>
                                 <input type="text" name="new_city" class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New state</label>
                                 <input type="text" name="new_state" class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New zip code</label>
                                 <input type="text" name="new_zip_code" class="form-control" />
                             </div>
-                            <div class="form-outline mb-4">
+                            <div class="form-outline mb-1">
                                 <label class="form-label">New phone</label>
                                 <input type="text" name="new_phone" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-2">
+                                <div class="filter-container">
+                                    <label for="new_cuisine">New Cuisine </label>
+                                    <select name="new_cuisine" id="new_cuisine">
+                                        <option value="American">American</option>
+                                        <option value="Italian">Italian</option>
+                                        <option value="Chinese">Chinese</option>
+                                        <option value="Indian">Korean</option>
+                                        <option value="Japanese">Japanese</option>
+                                        <option value="Thai">Thai</option>
+                                        <option value="Mediterranean">Mediterranean</option>
+                                        <option value="Mexican">Mexican</option>
+                                        <option value="Fast Food">Fast Food</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-outline mb-2">
+                                <div class="filter-container">
+                                    <label for="new_price">New Price </label>
+                                    <select name="new_price" id="new_price">
+                                        <option value="$">$</option>
+                                        <option value="$$">$$</option>
+                                        <option value="$$$">$$$</option>
+                                        <option value="$$$$">$$$$</option>
+                                    </select>
+                                </div>
                             </div>
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
                                 Update Eatery

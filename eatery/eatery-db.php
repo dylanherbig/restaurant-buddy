@@ -142,10 +142,10 @@ function filterPrice($price){
   return $results;  
 }
 
-function updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone){
+function updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone, $new_price){
     global $db;
-    $attributes = [$name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone];
-    $attribute_names = ["name", "email", 'description', "cuisine", "street_address", "city", "state", "zip_code", "phone"];
+    $attributes = [$name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone, $new_price];
+    $attribute_names = ["name", "email", 'description', "cuisine", "street_address", "city", "state", "zip_code", "phone", "price"];
     for ($i = 2; $i < count($attributes); $i++) {
         if($attributes[$i]){
             $query = "update eatery set {$attribute_names[$i]}=:{$attribute_names[$i]} WHERE email=:email AND name=:name";
@@ -157,28 +157,38 @@ function updateEatery($name, $email, $new_description, $new_cuisine, $new_street
             $statement->closeCursor();
         }    
     }
-    // global $db; // Assuming $db is defined elsewhere
+}
 
-    // $query = "update eatery set description=:new_description,
-    // cuisine=:new_cusine,
-    // street_address=:new_street_address,
-    // city=:new_city,
-    // state=:new_state,
-    // zip_code=:new_zip_code,
-    // phone=:new_phone
-    // WHERE email=:email AND name=:name";
-    // $statement = $db->prepare($query); 
-    // $statement->bindValue(':name', $name);
-    // $statement->bindValue(':email', $email);
-    // $statement->bindValue(':new_description', $new_description);
-    // $statement->bindValue(':new_cuisine', $new_cuisine);
-    // $statement->bindValue(':new_street_address', $new_street_address);
-    // $statement->bindValue(':new_city', $new_city);
-    // $statement->bindValue(':new_state', $new_state);
-    // $statement->bindValue(':new_zip_code', $new_zip_code);
-    // $statement->bindValue(':new_phone', $new_phone);
-    // $statement->execute();
-    // $statement->closeCursor();
+function addBar($id, $happy_hour){
+  global $db;
+  $query = "insert into bar (ID, happy_hour) VALUES (:id, :happy_hour)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':id', $id);
+  $statement->bindValue(':happy_hour', $happy_hour);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function addRestaurant($id, $reservation_policy, $dress_code){
+  global $db;
+  $query = "insert into restaurant (ID, reservation_policy, dress_code) VALUES (:id, :reservation_policy, :dress_code)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':id', $id);
+  $statement->bindValue(':reservation_policy', $reservation_policy);
+  $statement->bindValue(':dress_code', $dress_code);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
+function addCafeBakery($id, $wifi_available){
+  global $db;
+  $i = 1;
+  $query = "insert into cafe_bakery (ID, wifi_available) VALUES (:id, {$i})";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':id', $id);
+  $statement->bindValue(':wifi_available', $wifi_available);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
 ?>
