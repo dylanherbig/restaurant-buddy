@@ -65,6 +65,18 @@ function getEatery($name, $email){
     return $results;
 }
 
+function getEatery_byID($eateryID){
+  global $db;
+  $query = "select * FROM eatery WHERE ID=:eateryID";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+
+}
+  
 function fetchCreatedEateries($username) {
   global $db;
   $query = 'select * from eatery where createdBy = :username';
@@ -91,6 +103,21 @@ function fetchCreatedReviews($username) {
   $results = $statement->fetchAll();
   $statement->closeCursor();
   return $results;
+}
+
+function addReview($ID, $reviewer_username, $eateryID, $createdAt, $comment, $number_rating){
+  global $db;
+  $query = "insert into review (ID, reviewer_username, eateryID, createdAt, comment, number_rating)
+  VALUES (:ID, :reviewer_username, :eateryID, :createdAt, :comment, :number_rating)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':ID', $ID);
+  $statement->bindValue(':reviewer_username', $reviewer_username);
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->bindValue(':createdAt', $createdAt);
+  $statement->bindValue(':comment', $comment);
+  $statement->bindValue(':number_rating', $number_rating);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
 function filterCuisine($cuisine){

@@ -10,7 +10,7 @@ $password = $_COOKIE["password"];
 
 if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
     // Redirect the browser to another page using the header() function to specify the target URL
-    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+    //header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
 }
 
 // fetch all eateries
@@ -124,12 +124,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <th width="30%">Price
                     </tr>
                 </thead>
+                <style>
+                        a:link {
+                        color: blue;
+                        text-decoration-line: underline;
+                        }
 
+                        /* visited link */
+                        a:visited {
+                        color: purple;
+                        }
+
+                </style>
 
                 <?php foreach ($list_of_eateries as $eatery) : ?>
-                    <a href="/eatery.php?id=<?php echo $eatery['ID']; ?>">
                         <tr>
-                            <td><?php echo $eatery['name']; ?></td> <!-- column name -->
+                            <td>
+                            <a href="eatery/eatery.php?id=<?php echo $eatery['ID']; ?>">
+                                <?php echo $eatery['name']; ?>
+                            </a>
+                            </td> <!-- column name -->
                             <td><?php echo $eatery['email']; ?></td>
                             <td><?php echo $eatery['description']; ?></td>
                             <td><?php echo $eatery['cuisine']; ?></td>
@@ -153,7 +167,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         </td> -->
 
                         </tr>
-                    </a>
+                    
                 <?php endforeach; ?>
             </table>
         </div>
@@ -168,6 +182,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <!-- <script src="your-js-file.js"></script> -->
 
     </div>
+
 </body>
 
 </html>
