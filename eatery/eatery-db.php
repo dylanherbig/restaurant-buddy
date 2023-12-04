@@ -85,6 +85,23 @@ function fetchCreatedReviews($username) {
   return $results;
 }
 
+function fetchCreatedReviews_byEateryID($eateryID) {
+  global $db;
+  $query = 'SELECT 
+    review.reviewer_username,
+    eatery.name,
+    review.comment, 
+    review.number_rating
+  FROM eatery JOIN review
+  WHERE eatery.ID = review.eateryID AND review.eateryID = :eateryID';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+}
+
 function addReview($ID, $reviewer_username, $eateryID, $createdAt, $comment, $number_rating){
   global $db;
   $query = "insert into review (ID, reviewer_username, eateryID, createdAt, comment, number_rating)
