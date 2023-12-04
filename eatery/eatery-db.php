@@ -35,4 +35,15 @@ function getEatery($name, $email){
     return $results;
 }
 
+function getEatery_byID($eateryID){
+  global $db;
+  $query = "select * FROM eatery WHERE ID=:eateryID";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+}
+
 ?>

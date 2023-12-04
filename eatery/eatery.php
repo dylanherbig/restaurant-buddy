@@ -2,7 +2,10 @@
 require("../connect-db.php");
 require("eatery-db.php");
 
+$eatery = getEatery_byID($_GET['id']);
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
@@ -19,46 +22,71 @@ require("eatery-db.php");
 </head>
 
 <body>
-    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
-        <div class="row gx-lg-5 align-items-center mb-5">
-            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+    <div id="header"></div>
+    <div class="container">
+    <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+        <thead>
+            <tr style="background-color:#B0B0B0"></tr>
+        </thead>
+        <h1>Restaurant Buddy</h1>
 
-                <h1>Add an Eatery<br />
-                    <span style="color: hsl(218, 81%, 75%)">Restaurant Buddy</span>
-                </h1>
-                <p class="mb-4 opacity-70" style="color: hsl(158, 39%, 34%)">
-                    Do you know of an eatery that isn't already on our site?
-                    Add it here - All you need are the eatery's name, email, and a short description!
-                </p>
-
+        <!-- <form name="mainForm" action="index.php" method="post">
+            <div class="row mb-3 mx-3">
+                Your name:
+                <input type="text" class="form-control" name="friendname" required value="<?php echo $_POST['friendname_to_update']; ?>" />
             </div>
-            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
-
-                <div class="card bg-glass">
-                    <div class="card-body px-4 py-5 px-md-5">
-                        <form action="eatery.php" method="post">
-                            <div class="form-outline mb-4">
-                                <label class="form-label">Eatery name</label>
-                                <input type="text" name="name" class="form-control" required />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label">Eatery Phone number</label>
-                                <input type="text" name="email" class="form-control" required />
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label">Eatery description</label>
-                                <input type="text" name="description" class="form-control" required />
-                            </div>
-                            <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
-                                Add Eatery
-                            </button>
-                            <p style="color: red;"><?php echo $_SESSION['error'] ?></p>
-                        </form>
-                        <p>Back to Eateries <a href="index.php" style="color: hsl(158, 39%, 34%);"></a>Eateries</p>
-                    </div>
-                </div>
+            <div class="row mb-3 mx-3">
+                Major:
+                <input type="text" class="form-control" name="major" required value="<?php echo $_POST['major_to_update']; ?>" />
             </div>
+            <div class="row mb-3 mx-3">
+                Year:
+                <input type="text" class="form-control" name="year" required value="<?php echo $_POST['year_to_update']; ?>" />
+            </div>
+            <div class="row mb-3 mx-3">
+                <input type="submit" value="Add friend" name="addBtn" class="btn btn-primary" title="Insert a friend into a friends table" />
+            </div>
+            <div class="row mb-3 mx-3">
+                <input type="submit" value="Confirm update" name="confirmUpdateBtn" class="btn btn-secondary" title="Update a friend into a friends table" />
+            </div>
+        </form> -->
+
+        <hr />
+        <h3><?php echo $eatery[0]['name']; ?></h3>
+        <div class="row justify-content-center">
+            <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
+                    <tr><?php //echo count($eatery); ?></tr>
+                    <?php //print_r(array_values($eatery)); ?>
+                    <tr><?php //echo $eatery[0]['cuisine']; ?></tr>
+
+                    <tr><td><?php //echo $eatery[0]['name']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['cuisine']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['price']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['street_address']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['city']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['state']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['zip_code']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['phone']; ?></td></tr>
+                    <tr><td><?php echo $eatery[0]['total_reviews']; ?></td></tr>
+            </table>
+        <br><br>
+
+        <div>
+            <h4>Rating: </h4>
+            <input type="number" name="rating" min=1 max=5 value="<?php echo $rating;?>">
+            <br>
+            <h4>Review: </h4>
+            <textarea name="review" rows="5" cols="40"><?php echo $review;?></textarea>
         </div>
+
+
+
+        <!-- CDN for JS bootstrap -->
+        <!-- you may also use JS bootstrap to make the page dynamic -->
+        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script> -->
+
+        <!-- for local -->
+        <!-- <script src="your-js-file.js"></script> -->
+
     </div>
-<body>
-</html>
+</body>
