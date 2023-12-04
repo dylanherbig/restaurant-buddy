@@ -8,21 +8,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
 
         $email = trim($_POST['email']);
         $name = $_POST['name'];
-        $description = $_POST['description'];
 
-        #Generate a new unique ID for the eatery to be added
-        $max_id = getMaxIDFromEatery();
-        $new_id = 0;
-        foreach ($max_id as $curr_id){
-            $new_id = $curr_id['MAX(ID)'] + 1;
-        }
-        // echo($new_id); 
+        #Extract all the new attributes. As of now, we replace every value based on the extracted value below
+        $new_description = $_POST['new_description'];
+        $new_cuisine = $_POST['new_cuisine'];
+        $new_street_address = $_POST['new_street_address'];
+        $new_city = $_POST['new_city'];
+        $new_state = $_POST['new_state'];
+        $new_zip_code = $_POST['new_zip_code'];
+        $new_phone = $_POST['new_phone'];
 
-        // echo ("got here3");
 
-        addEatery($new_id, $name, $email, $description); 
+        updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone); 
         // echo ("got there4");
-        header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
+        // header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
 
     }
 }
@@ -69,19 +68,20 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
         <div class="row gx-lg-5 align-items-center mb-5">
             <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
-                <h1>Add an Eatery<br />
+
+                <h1>Update an Eatery<br />
                     <span style="color: hsl(218, 81%, 75%)">Restaurant Buddy</span>
                 </h1>
                 <p class="mb-4 opacity-70" style="color: hsl(158, 39%, 34%)">
-                    Do you know of an eatery that isn't already on our site?
-                    Add it here - All you need are the eatery's name, email, and a short description!
+                    Need to update an eatery on Restaurant Buddy?
+                    Update it here!
                 </p>
+
             </div>
             <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
-
                 <div class="card bg-glass">
                     <div class="card-body px-4 py-5 px-md-5">
-                        <form action="eatery.php" method="post">
+                        <form action="update-eatery.php" method="post">
                             <div class="form-outline mb-4">
                                 <label class="form-label">Eatery name</label>
                                 <input type="text" name="name" class="form-control" required />
@@ -91,15 +91,38 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
                                 <input type="text" name="email" class="form-control" required />
                             </div>
                             <div class="form-outline mb-4">
-                                <label class="form-label">Eatery description</label>
-                                <input type="text" name="description" class="form-control" required />
+                                <label class="form-label">New eatery description</label>
+                                <input type="text" name="new_description" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New cuisine</label>
+                                <input type="text" name="new_cuisine" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New street address</label>
+                                <input type="text" name="new_street_address" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New city</label>
+                                <input type="text" name="new_city" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New state</label>
+                                <input type="text" name="new_state" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New zip code</label>
+                                <input type="text" name="new_zip_code" class="form-control" />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">New phone</label>
+                                <input type="text" name="new_phone" class="form-control" />
                             </div>
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
                                 Add Eatery
                             </button>
                             <p style="color: red;"><?php echo $_SESSION['error'] ?></p>
                         </form>
-                        <p>Want to update an existing Eatery? <a href="update-eatery.php" style="color: hsl(158, 39%, 34%);">Click here!</a></p>
                         <p><a href="../index.php" style="color: hsl(158, 39%, 34%);">Back to Eateries</a></p>
                     </div>
                 </div>

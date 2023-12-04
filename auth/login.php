@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) > 0) {
             setcookie('password', $result[1], time() + 3600, '/', '.virginia.edu');   // store the password hash as a cookie
 
             // Redirect the browser to another page using the header() function to specify the target URL
-            header('Location: https://www.cs.virginia.edu/~dch6auf/project/index.php');
+            //header('Location: http://localhost/cs4750/restaurant-buddy/index.php');
          } else {
             $_SESSION['error'] = "Username or password incorrect";
          }  
