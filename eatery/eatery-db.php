@@ -2,7 +2,7 @@
 
 function fetchAllEateries() {
   global $db;
-  $query = "SELECT * from eatery WHERE 1";
+  $query = "select * from eatery";  
   $statement = $db->prepare($query); 
   $statement->execute();
   $results = $statement->fetchAll();   // fetch()
@@ -105,6 +105,23 @@ function fetchCreatedReviews($username) {
   return $results;
 }
 
+function fetchCreatedReviews_byEateryID($eateryID) {
+  global $db;
+  $query = 'SELECT 
+    review.reviewer_username,
+    eatery.name,
+    review.comment, 
+    review.number_rating
+  FROM eatery JOIN review
+  WHERE eatery.ID = review.eateryID AND review.eateryID = :eateryID';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+}
+
 function addReview($ID, $reviewer_username, $eateryID, $createdAt, $comment, $number_rating){
   global $db;
   $query = "insert into review (ID, reviewer_username, eateryID, createdAt, comment, number_rating)
@@ -141,6 +158,59 @@ function filterPrice($price){
   $statement->closeCursor();
   return $results;  
 }
+
+function cafeJoin(){
+  global $db;
+  $query = "select * from eatery natural join cafe_bakery";
+  $statement = $db->prepare($query);
+  //$statement->bindValue(':price', $price);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;  
+}
+
+function restaurantJoin(){
+  global $db;
+  $query = "select * from eatery natural join restaurant";
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;  
+}
+
+function barJoin(){
+  global $db;
+  $query = "select * from eatery natural join bar";
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;  
+}
+
+// function createVisitCount() {
+//   global $db;
+//   $query = "select name, count(distinct username) 
+//   from dines_at inner join eatery on dines_at.eateryID = eatery.ID
+//   group by eateryID;";
+//   $statement = $db->prepare($query);
+//   $statement->execute();
+//   $results = $statement->fetchAll();   // fetch()
+//   $statement->closeCursor();
+//   return $results;  
+// }
+
+// function getVisitCount(){
+//   global $db;
+//   $query = "select count (distinct username) from eatery natural join dines_at group by eateryID";
+//   $statement = $db->prepare($query);
+//   $statement->execute();
+//   $results = $statement->fetchAll();   // fetch()
+//   $statement->closeCursor();
+//   return $results;  
+// }
 
 function updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone, $new_price){
     global $db;

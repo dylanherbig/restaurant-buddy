@@ -72,10 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) > 0) {
                <span style="color: hsl(218, 81%, 75%)">for your business</span>
             </h1>
             <p class="mb-4 opacity-70" style="color: hsl(158, 39%, 34%)">
-               Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-               Temporibus, expedita iusto veniam atque, magni tempora mollitia
-               dolorum consequatur nulla, neque debitis eos reprehenderit quasi
-               ab ipsum nisi dolorem modi. Quos?
+               Welcome to Restaurant Buddy - your one-stop-shop for information on all the best restaurants around! At Restaurant Buddy, we've curated a comprehensive guide to the best dining experiences in town. Our mission is to be your go-to resource, offering detailed information on a diverse range of restaurants, from trendy cafes to upscale fine dining establishments. We hope you enjoy our site!
             </p>
 
          </div>

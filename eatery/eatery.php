@@ -2,8 +2,10 @@
 require("../connect-db.php");
 require("eatery-db.php");
 
-// $eatery = getEatery_byID($_GET['id']);
-// if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen($_POST['email']) > 0) {
+$eatery = getEatery_byID($_GET['id']);
+$eateryReviews = fetchCreatedReviews_byEateryID($_GET['id']);
+
+if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen($_POST['email']) > 0) {
 
 //     if (isset($_POST['name'])) {
 
@@ -35,6 +37,8 @@ require("eatery-db.php");
 //     }
 // }
 
+
+
     // If username contains only alphanumeric data, proceed to verify the password;
     // otherwise, reject the username and force re-login.
     
@@ -59,6 +63,16 @@ require("eatery-db.php");
 
 ?>
 
+<?php
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+   if (!empty($_POST['addBtn']))
+   {
+      addReview($_POST['ID'], $_POST['reviewer_username'], $_POST['eateryID'], $_POST['createdAt'], $_POST['comment'], $_POST['number_rating']);
+   }
+}
+?>
 
 <!DOCTYPE html>
 <html>
@@ -154,7 +168,7 @@ require("eatery-db.php");
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
                                 Add Eatery
                             </button>
-                            <p style="color: red;"><?php echo $_SESSION['error'] ?></p>
+                            <p style="color: red;"><?php //echo $_SESSION['error'] ?></p>
                         </form>
                         <p>Want to update an existing Eatery? <a href="update-eatery.php" style="color: hsl(158, 39%, 34%);">Click here!</a></p>
                         <p><a href="../index.php" style="color: hsl(158, 39%, 34%);">Back to Eateries</a></p>
@@ -201,21 +215,65 @@ require("eatery-db.php");
             <textarea name="review" rows="5" cols="40"><?php //echo $review;?></textarea>
         </div> -->
 
-        <form name="addReview" action="eatery.php" method="post">   
+        <form name="addReview" action="eatery.php" method="post">
+            <div class="row mb-3 mx-3">
+                Reviewer Username:
+                <input type="text" class="form-control" name="reviewer_username" value="<?php echo $_COOKIE["user"];?>">        
+            </div>
+            <div class="row mb-3 mx-3">
+                Eatery ID:
+                <input type="number" class="form-control" name="eateryID" value="<?php echo $_GET['id']; ?>">        
+            </div>
+            <div class="row mb-3 mx-3">
+                Created At:
+                <input type="text" class="form-control" name="createdAt" value="<?php $t=time(); echo(date("Y-m-d",$t));?>">        
+            </div>
+            <div class="row mb-3 mx-3">
+                Dined Here?:
+                <input type="checkbox" name="dinesAt" value="">
+            </div>
             <div class="row mb-3 mx-3">
                 Rating:
-                <input type="number" class="form-control" name="rating" min=1 max=5 value="<?php //echo $rating;?>">        
+                <input type="number" class="form-control" name="number_rating" min=1 max=5 value="<?php //echo $rating;?>">        
             </div>  
 
             <div class="row mb-3 mx-3">
                 Review:
-                <textarea type="text" class="form-control" name="review" required ></textarea>        
+                <textarea type="text" class="form-control" name="comment" required ></textarea>        
             </div>    
             <div class="row mb-3 mx-3">
-                <input type="submit" value="Add Eatery" name="addBtn" 
+                <input type="submit" value="Add Review" name="addBtn" 
                         class="btn btn-primary" title="insert into reviews table" />
             </div>
         </form>
+        
+<!-- dined here y/n. insert into dinesAt table  dines_at(eateryID, username)-->
+
+        <h3>My Reviews</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Eatery</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">Rating</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <?php
+                foreach ($eateryReviews as $review) {
+                    echo $eatery['id']; // extract id 
+
+                    echo "<tr>";
+                    echo "<td>{$review['name']}</td>";
+                    echo "<td>{$review['comment']}</td>";
+                    echo "<td>{$review['number_rating']}/5</td>";
+                    echo "</tr>";
+                }
+                ?>
+            </tbody>
+        </table>
+
 
 
 
