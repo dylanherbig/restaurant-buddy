@@ -2,6 +2,8 @@
 
 function registerUser($username, $passwordHash, $full_name, $email) {
   global $db;
+
+  // create user
   $query = "insert into user (username, passwordHash, full_name, email)
   VALUES (:username, :passwordHash, :full_name, :email)";
   $statement = $db->prepare($query); 
@@ -11,6 +13,25 @@ function registerUser($username, $passwordHash, $full_name, $email) {
   $statement->bindValue(':email', $email);
   $result = $statement->execute();
   $statement->closeCursor();
+
+  // create reviewer class
+
+  $query = "insert into reviewer (username)
+  VALUES (:username)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':username', $username);
+  $result = $statement->execute();
+  $statement->closeCursor();
+
+  return $result;
+}
+
+function fetchAllUsers() {
+  global $db;
+  $query = 'SELECT * FROM user WHERE 1';
+  $statement = $db->prepare($query);
+  $statement->execute();
+  $result = $statement->fetchAll();
   return $result;
 }
 

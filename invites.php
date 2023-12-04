@@ -3,6 +3,7 @@
 require("connect-db.php");
 require("invites/invites-db.php");
 require("auth/user-db.php");
+require("eatery/eatery-db.php");
 include("header.html");
 
 // check if user is logged in, if not redirect to login.php
@@ -17,10 +18,12 @@ if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $p
 // fetch all incoming and outgoing invites
 $received_invites = fetchReceivedInvites($user);
 $sent_invites = fetchSentInvites($user);
+$all_users = fetchAllUsers();
+$all_eateries = fetchAllEateries();
 
 // handle post requests
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
-    
+
 
     if (!empty($_POST['deleteInvitation'])) {
         deleteInvitation($_POST['delete_invitation_id']);
@@ -30,6 +33,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         denyInvitation($_POST['deny_invitation_id']);
     } else if (!empty($_POST['cancelInvitation'])) {
         cancelInvitation($_POST['cancel_invitation_id']);
+    } else if (!empty($_POST['createInvitation'])) {
+        $date_time_from = date("Y-m-d H:i:s",strtotime($_POST['date_time_from']));
+        $date_time_to = date('Y-m-d H:i:s',strtotime($_POST['date_time_to']));
+        createInvitation($user, $_POST['invitee'], $_POST['eatery'], $date_time_from, $date_time_to);
     }
     header("Refresh:0"); // refresh page for users to see changes
 }
@@ -58,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
         <div class="card bg-glass">
-            <div class="card-body px-4 py-5 px-md-5">
+            <div class="card-body px-4 py-5 px-md-5" style="justify-content: center;">
                 <h3>Received Invites</h3>
                 <table class="table">
                     <thead>
@@ -81,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             echo "<td>{$invite['name']}</td>";
                             echo "<td>{$invite['date_time_from']}</td>";
                             echo "<td>{$invite['date_time_to']}</td>";
-                            if ($invite["status"] == "pending") { 
+                            if ($invite["status"] == "pending") {
                                 echo "<td>Pending</td>";
                                 echo "<td>
                                         <form action='invites.php' method='post'>
@@ -138,7 +145,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                             echo "<td>{$invite['name']}</td>";
                             echo "<td>{$invite['date_time_from']}</td>";
                             echo "<td>{$invite['date_time_to']}</td>";
-                            if ($invite["status"] == "pending") { 
+                            if ($invite["status"] == "pending") {
                                 echo "<td>Pending</td>";
                             } else if ($invite["status"] == "accepted") {
                                 echo "<td>Accepted</td>";
@@ -146,8 +153,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                                 echo "<td>Denied</td>";
                             } else {
                                 echo "<td>Cancelled</td>";
-                            } 
-                            
+                            }
+
                             $id = $invite['id'];
                             echo "<td>
                                     <form action='invites.php' method='post'>
@@ -160,6 +167,44 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
                         ?>
                     </tbody>
                 </table>
+                <h3>Create Invitation</h3>
+                <div class="flex-row align-items-center">
+
+                    <form action="invites.php" method="post">
+                        <h5>User you would like to invite</h5>
+                        <select style="width: 300px;" class="form-select align-self-center" name="invitee">
+                            <option value="" default>Please select another user</option>
+                            <?php foreach ($all_users as $invitee) {
+                                if ($invitee["username"] == $user) {
+                                    continue;
+                                }
+                                $name = $invitee["full_name"];
+                                $id = $invitee["username"];
+                                echo "<option value='$id'>$name</option>";
+                            }
+                            ?>
+                        </select></br>
+
+                        <h5>Eatery</h5>
+                        <select style="width: 300px;" class="form-select align-self-center" name="eatery">
+                            <option value="" default>Please an eatery</option>
+                            <?php foreach ($all_eateries as $eatery) {
+                                $name = $eatery["name"];
+                                $id = $eatery["ID"];
+                                echo "<option value='$id'>$name</option>";
+                            }
+                            ?>
+                        </select></br>
+
+                        <h5>Date and Time - From</h5>
+                        <input type="datetime-local" name="date_time_from"/></br></br>
+
+                        <h5>Date and Time - To</h5>
+                        <input type="datetime-local" name="date_time_to"/></br></br>
+
+                        <input type='submit' style="align-self: center; background-color: hsl(158, 39%, 34%);" name="createInvitation" value="Create Invitation" class='btn btn-secondary' />
+                    </form>
+                </div>
             </div>
         </div>
     </div>

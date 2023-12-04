@@ -1,8 +1,8 @@
 <?php
 
-function getAllEateries() {
+function fetchAllEateries() {
   global $db;
-  $query = "select * from eatery";
+  $query = "SELECT * from eatery WHERE 1";
   $statement = $db->prepare($query); 
   $statement->execute();
   $results = $statement->fetchAll();   // fetch()
@@ -40,6 +40,35 @@ function getEatery_byID($eateryID){
   $query = "select * FROM eatery WHERE ID=:eateryID";
   $statement = $db->prepare($query); 
   $statement->bindValue(':eateryID', $eateryID);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+
+}
+  
+function fetchCreatedEateries($username) {
+  global $db;
+  $query = 'select * from eatery where createdBy = :username';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+}
+
+function fetchCreatedReviews($username) {
+  global $db;
+  $query = 'SELECT 
+    review.reviewer_username,
+    eatery.name,
+    review.comment, 
+    review.number_rating
+  FROM eatery JOIN review
+  WHERE eatery.ID = review.eateryID AND review.reviewer_username = :username';
+  $statement = $db->prepare($query);
+  $statement->bindValue(':username', $username);
   $statement->execute();
   $results = $statement->fetchAll();
   $statement->closeCursor();
