@@ -67,10 +67,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['barJoinBtn'])) {
     
 }
 
+$topTenClicked = false;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['topTenBtn'])) {
+
+    $list_of_eateries = findTopTen();
+    $topTenClicked = true;
+    
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['resetBtn'])) {
     $list_of_eateries = fetchAllEateries();
 }
+
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -172,6 +182,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </form>
 
             <form method="post" action="index.php" class="mx-1">
+                <button type="submit" name="topTenBtn" class="btn btn-info">Top 10 Most Visited</button>
+            </form>
+
+            <form method="post" action="index.php" class="mx-1">
                 <button type="submit" name="resetBtn" class="btn btn-secondary">Reset</button>
             </form>
 
@@ -201,6 +215,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <?php if ($restaurantJoinClicked) : ?>
                         <th width="30%">Reservation Policy</th>
                         <th width="30%">Dress Code</th>
+                        <?php endif; ?>
+
+                        <?php if ($topTenClicked) : ?>
+                        <th width="30%">Total Visitor Count </th>
                         <?php endif; ?>
                     </tr>
                 </thead>
@@ -241,6 +259,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?php echo $eatery['reservation_policy'] ?></td>
                             <td><?php echo $eatery['dress_code'] ?></td>
                             <?php endif; ?>  
+
+                            <?php if ($topTenClicked) : ?>
+                            <td><?php echo $eatery['visits'] ?></td>
+                            <?php endif; ?> 
 
                         </tr>
                     

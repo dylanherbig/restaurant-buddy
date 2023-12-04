@@ -23,6 +23,23 @@ function addEatery($id, $name, $email, $description){
     $statement->closeCursor();
 }
 
+function findTopTen(){
+  global $db;
+  // $query = "select COUNT(DISTINCT username) AS visits
+  // FROM dines_at
+  // INNER JOIN eatery ON dines_at.eateryID = eatery.ID
+  // GROUP BY eateryID order by visits DESC LIMIT 10";
+  $query = "select *, COUNT(DISTINCT username) AS visits
+  FROM dines_at
+  INNER JOIN eatery ON dines_at.eateryID = eatery.ID
+  GROUP BY eateryID order by visits DESC LIMIT 10";
+  $statement = $db->prepare($query); 
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;
+}
+
 function getMaxIDFromEatery(){
     global $db;
     $query = "select MAX(ID) FROM eatery";
