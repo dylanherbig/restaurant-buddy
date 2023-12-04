@@ -33,15 +33,15 @@ $eatery = getEatery_byID($_GET['id']);
         <!-- <form name="mainForm" action="index.php" method="post">
             <div class="row mb-3 mx-3">
                 Your name:
-                <input type="text" class="form-control" name="friendname" required value="<?php echo $_POST['friendname_to_update']; ?>" />
+                <input type="text" class="form-control" name="friendname" required value="<?php //echo $_POST['friendname_to_update']; ?>" />
             </div>
             <div class="row mb-3 mx-3">
                 Major:
-                <input type="text" class="form-control" name="major" required value="<?php echo $_POST['major_to_update']; ?>" />
+                <input type="text" class="form-control" name="major" required value="<?php //echo $_POST['major_to_update']; ?>" />
             </div>
             <div class="row mb-3 mx-3">
                 Year:
-                <input type="text" class="form-control" name="year" required value="<?php echo $_POST['year_to_update']; ?>" />
+                <input type="text" class="form-control" name="year" required value="<?php //echo $_POST['year_to_update']; ?>" />
             </div>
             <div class="row mb-3 mx-3">
                 <input type="submit" value="Add friend" name="addBtn" class="btn btn-primary" title="Insert a friend into a friends table" />
@@ -71,13 +71,29 @@ $eatery = getEatery_byID($_GET['id']);
             </table>
         <br><br>
 
-        <div>
+        <!-- <div>
             <h4>Rating: </h4>
-            <input type="number" name="rating" min=1 max=5 value="<?php echo $rating;?>">
+            <input type="number" name="rating" min=1 max=5 value="<?php //echo $rating;?>">
             <br>
             <h4>Review: </h4>
-            <textarea name="review" rows="5" cols="40"><?php echo $review;?></textarea>
-        </div>
+            <textarea name="review" rows="5" cols="40"><?php //echo $review;?></textarea>
+        </div> -->
+
+        <form name="addReview" action="eatery.php" method="post">   
+            <div class="row mb-3 mx-3">
+                Rating:
+                <input type="number" class="form-control" name="rating" min=1 max=5 value="<?php //echo $rating;?>">        
+            </div>  
+
+            <div class="row mb-3 mx-3">
+                Review:
+                <textarea type="text" class="form-control" name="review" required ></textarea>        
+            </div>    
+            <div class="row mb-3 mx-3">
+                <input type="submit" value="Add Eatery" name="addBtn" 
+                        class="btn btn-primary" title="insert into reviews table" />
+            </div>
+        </form>
 
 
 
