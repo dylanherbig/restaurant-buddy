@@ -3,6 +3,52 @@ require("../connect-db.php");
 require("eatery-db.php");
 
 $eatery = getEatery_byID($_GET['id']);
+if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen($_POST['email']) > 0) {
+
+    if (isset($_POST['name'])) {
+
+        $email = trim($_POST['email']);
+        $name = $_POST['name'];
+        $description = $_POST['description'];
+
+        #Generate a new unique ID for the eatery to be added
+        $max_id = getMaxIDFromEatery();
+        $new_id = 0;
+        foreach ($max_id as $curr_id){
+            $new_id = $curr_id['MAX(ID)'] + 1;
+        }
+        // echo($new_id); 
+
+        // echo ("got here3");
+
+        addEatery($new_id, $name, $email, $description); 
+        // echo ("got there4");
+        header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
+
+    }
+}
+
+    // If username contains only alphanumeric data, proceed to verify the password;
+    // otherwise, reject the username and force re-login.
+    
+
+    // // If password is entered and contains only alphanumeric data, set cookies and redirect the user to survey instruction page;
+    // // otherwise, reject the password and force re-login.
+    // if (isset($_POST['name'])) {
+
+    //     $email = trim($_POST['email']);
+    //     $name = $_POST['name'];
+    //     $description = $_POST['description'];
+
+    //     // if (getEatery($name, $email)) {
+    //     //     $_SESSION["error"] = "Eatery has already been added";
+    //     } else {
+    //         addEatery($name, $email, $description);  
+    //             // Redirect the browser to another page using the header() function to specify the target URL
+    //             header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
+    //     }
+    // }
+// }
 
 ?>
 
@@ -38,6 +84,43 @@ $eatery = getEatery_byID($_GET['id']);
             <div class="row mb-3 mx-3">
                 Major:
                 <input type="text" class="form-control" name="major" required value="<?php //echo $_POST['major_to_update']; ?>" />
+    <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
+        <div class="row gx-lg-5 align-items-center mb-5">
+            <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
+                <h1>Add an Eatery<br />
+                    <span style="color: hsl(218, 81%, 75%)">Restaurant Buddy</span>
+                </h1>
+                <p class="mb-4 opacity-70" style="color: hsl(158, 39%, 34%)">
+                    Do you know of an eatery that isn't already on our site?
+                    Add it here - All you need are the eatery's name, email, and a short description!
+                </p>
+            </div>
+            <div class="col-lg-6 mb-5 mb-lg-0 position-relative">
+
+                <div class="card bg-glass">
+                    <div class="card-body px-4 py-5 px-md-5">
+                        <form action="eatery.php" method="post">
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Eatery name</label>
+                                <input type="text" name="name" class="form-control" required />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Eatery email address</label>
+                                <input type="text" name="email" class="form-control" required />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Eatery description</label>
+                                <input type="text" name="description" class="form-control" required />
+                            </div>
+                            <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
+                                Add Eatery
+                            </button>
+                            <p style="color: red;"><?php echo $_SESSION['error'] ?></p>
+                        </form>
+                        <p>Want to update an existing Eatery? <a href="update-eatery.php" style="color: hsl(158, 39%, 34%);">Click here!</a></p>
+                        <p><a href="../index.php" style="color: hsl(158, 39%, 34%);">Back to Eateries</a></p>
+                    </div>
+                </div>
             </div>
             <div class="row mb-3 mx-3">
                 Year:
