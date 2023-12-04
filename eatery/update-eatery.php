@@ -19,8 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
         $new_phone = $_POST['new_phone'];
 
 
-        // updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone); 
-        echo ("got there4");
+        updateEatery($name, $email, $new_description, $new_cuisine, $new_street_address, $new_city, $new_state, $new_zip_code, $new_phone); 
+        // echo ("got there4");
         // header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
 
     }
@@ -92,31 +92,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New eatery description</label>
-                                <input type="text" name="new_description" class="form-control" required />
+                                <input type="text" name="new_description" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New cuisine</label>
-                                <input type="text" name="new_cuisine" class="form-control" required />
+                                <input type="text" name="new_cuisine" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New street address</label>
-                                <input type="text" name="new_street_address" class="form-control" required />
+                                <input type="text" name="new_street_address" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New city</label>
-                                <input type="text" name="new_city" class="form-control" required />
+                                <input type="text" name="new_city" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New state</label>
-                                <input type="text" name="new_state" class="form-control" required />
+                                <input type="text" name="new_state" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New zip code</label>
-                                <input type="text" name="new_zip_code" class="form-control" required />
+                                <input type="text" name="new_zip_code" class="form-control" />
                             </div>
                             <div class="form-outline mb-4">
                                 <label class="form-label">New phone</label>
-                                <input type="text" name="new_phone" class="form-control" required />
+                                <input type="text" name="new_phone" class="form-control" />
                             </div>
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
                                 Add Eatery

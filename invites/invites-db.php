@@ -1,21 +1,5 @@
 <?php
 
-function invite($invitee, $inviter, $eateryID, $date_time_from, $date_time_to)
-{
-    global $db;
-    $query = "insert into invites (invitee, inviter, eateryID, date_time_from, date_time_to, accepted, denied)
-    VALUES (:invitee, :inviter, :eateryID, :date_time_from, :date_time_to, FALSE, FALSE)";
-    $statement = $db->prepare($query);
-    $statement->bindValue(':invitee', $invitee);
-    $statement->bindValue(':inviter', $inviter);
-    $statement->bindValue(':eateryID', $eateryID);
-    $statement->bindValue(':date_time_from', $date_time_from);
-    $statement->bindValue(':date_time_to', $date_time_to);
-    $result = $statement->execute();
-    $statement->closeCursor();
-    return $result;
-}
-
 function fetchReceivedInvites($invitee)
 {
     global $db;
@@ -92,6 +76,18 @@ function cancelInvitation($invitationID) {
     $statement->closeCursor();  
 }
 
-
+function createInvitation($inviter, $invitee, $eateryID, $date_time_from, $date_time_to) {
+    global $db;
+    $query = "insert into invites (inviter, invitee, eateryID, date_time_from, date_time_to, status)
+    VALUES (:inviter, :invitee, :eateryID, :date_time_from, :date_time_to, 'pending')";
+    $statement = $db->prepare($query);
+    $statement->bindValue(':inviter', $inviter);
+    $statement->bindValue(':invitee', $invitee);
+    $statement->bindValue(':eateryID', $eateryID);
+    $statement->bindValue(':date_time_from', $date_time_from);
+    $statement->bindValue(':date_time_to', $date_time_to);
+    $statement->execute();
+    $statement->closeCursor();  
+}
 
 ?>
