@@ -1,9 +1,20 @@
 <?php
 require("../connect-db.php");
 require("eatery-db.php");
+require("../auth/user-db.php");
+require("../header.php");
+
+// check if user is logged in, if not redirect to login.php
+$user = $_COOKIE["user"];
+$password = $_COOKIE["password"];
+
+if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
+    // Redirect the browser to another page using the header() function to specify the target URL
+    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+}
 
 if (isset($_POST['name'])) {
-    echo("1");
+    echo ("1");
 
     $email = trim($_POST['email']);
     $name = $_POST['name'];
@@ -20,11 +31,11 @@ if (isset($_POST['name'])) {
     #Generate a new unique ID for the eatery to be added
     $max_id = getMaxIDFromEatery();
     $new_id = 0;
-    foreach ($max_id as $curr_id){
+    foreach ($max_id as $curr_id) {
         $new_id = $curr_id['MAX(ID)'] + 1;
     }
-    
-    addEatery($new_id, $name, $email, $description, $cuisine, $street_address, $city, $state, $zip_code, $phone, $price); 
+
+    addEatery($new_id, $name, $email, $description, $cuisine, $street_address, $city, $state, $zip_code, $phone, $price);
     if ($category == "Bar") {
         session_start();
         $_SESSION['id'] = $new_id;
@@ -62,6 +73,7 @@ if (isset($_POST['name'])) {
 </head>
 
 <body>
+    <div id="header"></div>
     <div class="container px-4 py-5 px-md-5 text-center text-lg-start my-5">
         <div class="row gx-lg-5 align-items-center mb-5">
             <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: 10">
@@ -91,23 +103,23 @@ if (isset($_POST['name'])) {
                             </div>
                             <div class="form-outline mb-1">
                                 <label class="form-label">Street address</label>
-                                <input type="text" name="street_address" class="form-control" required/>
+                                <input type="text" name="street_address" class="form-control" required />
                             </div>
                             <div class="form-outline mb-1">
                                 <label class="form-label">City</label>
-                                <input type="text" name="city" class="form-control" required/>
+                                <input type="text" name="city" class="form-control" required />
                             </div>
                             <div class="form-outline mb-1">
                                 <label class="form-label">State</label>
-                                <input type="text" name="state" class="form-control" required/>
+                                <input type="text" name="state" class="form-control" required />
                             </div>
                             <div class="form-outline mb-1">
                                 <label class="form-label">Zip code</label>
-                                <input type="text" name="zip_code" class="form-control" required/>
+                                <input type="text" name="zip_code" class="form-control" required />
                             </div>
                             <div class="form-outline mb-1">
                                 <label class="form-label">Phone</label>
-                                <input type="text" name="phone" class="form-control" required/>
+                                <input type="text" name="phone" class="form-control" required />
                             </div>
                             <div class="form-outline mb-2">
                                 <div class="filter-container">
@@ -159,5 +171,7 @@ if (isset($_POST['name'])) {
             </div>
         </div>
     </div>
-<body>
+
+    <body>
+
 </html>

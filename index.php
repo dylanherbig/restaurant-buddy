@@ -2,7 +2,7 @@
 require("connect-db.php");
 require("eatery/eatery-db.php");
 require("auth/user-db.php");
-include("header.html");
+require("header.php");
 
 // check if user is logged in, if not redirect to login.php
 $user = $_COOKIE["user"];
@@ -98,20 +98,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // var_dump($list_of_friends);
     }
 }
-
-// $cafeJoinClicked = false;
-// $test = "btn btn-outline-info";
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cafeJoinBtn'])) {
-//     $cafeJoinClicked = !$cafeJoinClicked;
-//     if ($cafeJoinClicked) {
-//         $test = "btn btn-outline-danger";
-//         $list_of_eateries = cafeJoin();
-//     } else {
-//         $test = "btn btn-outline-info";
-//         $list_of_eateries = fetchAllEateries();
-//     }
-// }
 
 ?>
 
