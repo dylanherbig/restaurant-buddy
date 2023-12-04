@@ -154,6 +154,16 @@ function addReview($ID, $reviewer_username, $eateryID, $createdAt, $comment, $nu
   $statement->closeCursor();
 }
 
+function getMaxIDFromReview(){
+  global $db;
+  $query = "select MAX(ID) FROM review";
+  $statement = $db->prepare($query); 
+  $statement->execute();
+  $results = $statement->fetchAll();
+  $statement->closeCursor();
+  return $results;
+}
+
 function filterCuisine($cuisine){
   global $db;
   $query = "select * from eatery where cuisine = :cuisine";

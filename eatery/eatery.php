@@ -60,18 +60,31 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
     //     }
     // }
 // }
-
+}
 ?>
 
 <?php
+
+#Generate a new unique ID for the review to be added
+$max_id = getMaxIDFromReview();
+$new_id = 0;
+foreach ($max_id as $curr_id){
+    $new_id = $curr_id['MAX(ID)'] + 1;
+}
+
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
 {
    if (!empty($_POST['addBtn']))
    {
-      addReview($_POST['ID'], $_POST['reviewer_username'], $_POST['eateryID'], $_POST['createdAt'], $_POST['comment'], $_POST['number_rating']);
+      addReview($new_id, $_POST['reviewer_username'], $_POST['eateryID'], $_POST['createdAt'], $_POST['comment'], $_POST['number_rating']);
+      $eateryReviews = fetchCreatedReviews_byEateryID($_GET['id']);
+
    }
 }
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -215,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <textarea name="review" rows="5" cols="40"><?php //echo $review;?></textarea>
         </div> -->
 
-        <form name="addReview" action="eatery.php" method="post">
+        <form name="addReview" action="eatery.php?id=<?php echo $_GET['id']; ?>" method="post">
             <div class="row mb-3 mx-3">
                 Reviewer Username:
                 <input type="text" class="form-control" name="reviewer_username" value="<?php echo $_COOKIE["user"];?>">        
@@ -262,7 +275,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
             <tbody>
                 <?php
                 foreach ($eateryReviews as $review) {
-                    echo $eatery['id']; // extract id 
+                    //echo $eatery['id']; // extract id 
 
                     echo "<tr>";
                     echo "<td>{$review['name']}</td>";
