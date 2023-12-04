@@ -119,7 +119,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
                                 <input type="text" name="new_phone" class="form-control" />
                             </div>
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
-                                Add Eatery
+                                Update Eatery
                             </button>
                             <p style="color: red;"><?php echo $_SESSION['error'] ?></p>
                         </form>

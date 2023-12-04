@@ -9,6 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
         $email = trim($_POST['email']);
         $name = $_POST['name'];
         $description = $_POST['description'];
+        $cuisine = $_POST['cuisine'];
+        $street_address = $_POST['street_address'];
+        $city = $_POST['city'];
+        $state = $_POST['state'];
+        $zip_code = $_POST['zip_code'];
+        $phone = $_POST['phone'];
+        $price = $_POST['price'];
 
         #Generate a new unique ID for the eatery to be added
         $max_id = getMaxIDFromEatery();
@@ -20,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
 
         // echo ("got here3");
 
-        addEatery($new_id, $name, $email, $description); 
+        addEatery($new_id, $name, $email, $description, $cuisine, $street_address, $city, $state, $zip_code, $phone, $price); 
         // echo ("got there4");
         header('Location: https://www.cs.virginia.edu/~yte9fbr/restaurant-buddy/index.php');
 
@@ -93,6 +100,38 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['name']) > 0 && strlen
                             <div class="form-outline mb-4">
                                 <label class="form-label">Eatery description</label>
                                 <input type="text" name="description" class="form-control" required />
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Category (cafe_bakery, bar, restaurant, eatery)</label>
+                                <input type="text" name="category" class="form-control"/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Cuisine</label>
+                                <input type="text" name="cuisine" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Street address</label>
+                                <input type="text" name="street_address" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">City</label>
+                                <input type="text" name="city" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">State</label>
+                                <input type="text" name="state" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Zip code</label>
+                                <input type="text" name="zip_code" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Phone</label>
+                                <input type="text" name="phone" class="form-control" required/>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <label class="form-label">Price</label>
+                                <input type="text" name="price" class="form-control" required/>
                             </div>
                             <button type="submit" style="background-color: hsl(158, 39%, 34%);" class="btn w-100 btn-primary btn-block mb-4">
                                 Add Eatery

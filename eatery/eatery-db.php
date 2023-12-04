@@ -10,17 +10,37 @@ function fetchAllEateries() {
   return $results;
 }
 
-function addEatery($id, $name, $email, $description){
-    global $db;
-    $query = "insert into eatery (ID, name, email, description)
-    VALUES (:id, :name, :email, :description)";
-    $statement = $db->prepare($query); 
-    $statement->bindValue(':id', $id);
-    $statement->bindValue(':name', $name);
-    $statement->bindValue(':email', $email);
-    $statement->bindValue(':description', $description);
-    $statement->execute();
-    $statement->closeCursor();
+// function addEatery($id, $name, $email, $description){
+//     global $db;
+//     $query = "insert into eatery (ID, name, email, description)
+//     VALUES (:id, :name, :email, :description)";
+//     $statement = $db->prepare($query); 
+//     $statement->bindValue(':id', $id);
+//     $statement->bindValue(':name', $name);
+//     $statement->bindValue(':email', $email);
+//     $statement->bindValue(':description', $description);
+//     $statement->execute();
+//     $statement->closeCursor();
+// }
+
+function addEatery($new_id, $name, $email, $description, $cuisine, $street_address, $city, $state, $zip_code, $phone, $price){
+  global $db;
+  $query = "insert into eatery (ID, name, email, description, cuisine, street_address, city, state, zip_code, phone, price)
+  VALUES (:id, :name, :email, :description, :cuisine, :street_address, :city, :state, :zip_code, :phone, :price)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':id', $new_id);
+  $statement->bindValue(':name', $name);
+  $statement->bindValue(':email', $email);
+  $statement->bindValue(':description', $description);
+  $statement->bindValue(':cuisine', $cuisine);
+  $statement->bindValue(':street_address', $street_address);
+  $statement->bindValue(':city', $city);
+  $statement->bindValue(':state', $state);
+  $statement->bindValue(':zip_code', $zip_code);
+  $statement->bindValue(':phone', $phone);
+  $statement->bindValue(':price', $price);
+  $statement->execute();
+  $statement->closeCursor();
 }
 
 function getMaxIDFromEatery(){
