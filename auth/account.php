@@ -4,7 +4,7 @@
 require("../connect-db.php");
 require("user-db.php");
 require("../eatery/eatery-db.php");
-include("../header.html");
+include("../header.php");
 
 // check if user is logged in, if not redirect to login.php
 $user = $_COOKIE["user"];
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             <div class="card">
                 <div class="card-body">
                     <div class="d-flex flex-column">
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle align-self-center" width="150">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3276/3276535.png" alt="Admin" class="rounded-circle align-self-center" width="150">
                         <div class="mt-3">
                             <?php
                                 $full_name = $user_profile['full_name'];

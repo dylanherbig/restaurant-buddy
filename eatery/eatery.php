@@ -1,6 +1,17 @@
 <?php
 require("../connect-db.php");
+require("../auth/user-db.php");
 require("eatery-db.php");
+require("../header.php");
+
+// check if user is logged in, if not redirect to login.php
+$user = $_COOKIE["user"];
+$password = $_COOKIE["password"];
+
+if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
+    // Redirect the browser to another page using the header() function to specify the target URL
+    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+}
 
 $eatery = getEatery_byID($_GET['id']);
 $eateryReviews = fetchCreatedReviews_byEateryID($_GET['id']);
@@ -269,6 +280,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     <th scope="col">Eatery</th>
                     <th scope="col">Comment</th>
                     <th scope="col">Rating</th>
+                    <th scope="col">Written By</th>
 
                 </tr>
             </thead>
@@ -281,6 +293,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                     echo "<td>{$review['name']}</td>";
                     echo "<td>{$review['comment']}</td>";
                     echo "<td>{$review['number_rating']}/5</td>";
+                    echo "<td><a href='/~dch6auf/project/auth/account.php?username={$review['reviewer_username']}'>{$review['reviewer_username']}</a></td>";
                     echo "</tr>";
                 }
                 ?>

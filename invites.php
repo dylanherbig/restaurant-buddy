@@ -4,7 +4,7 @@ require("connect-db.php");
 require("invites/invites-db.php");
 require("auth/user-db.php");
 require("eatery/eatery-db.php");
-include("header.html");
+require("header.php");
 
 // check if user is logged in, if not redirect to login.php
 $user = $_COOKIE["user"];
