@@ -1,6 +1,18 @@
 <?php
 require("../connect-db.php");
 require("eatery-db.php");
+require("../auth/user-db.php");
+include("../header.html");
+
+// check if user is logged in, if not redirect to login.php
+$user = $_COOKIE["user"];
+$password = $_COOKIE["password"];
+
+if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
+    // Redirect the browser to another page using the header() function to specify the target URL
+    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+}
+
 
 $eatery = getEatery_byID($_GET['id']);
 $eateryReviews = fetchCreatedReviews_byEateryID($_GET['id']);
@@ -286,6 +298,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 ?>
             </tbody>
         </table>
+        <!--<p>Want to update an existing Review? <a href="update-review.php" style="color: hsl(158, 39%, 34%);">Click here!</a></p>-->
 
 
 
