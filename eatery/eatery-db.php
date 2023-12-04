@@ -63,4 +63,26 @@ function fetchCreatedReviews($username) {
   return $results;
 }
 
+function filterCuisine($cuisine){
+  global $db;
+  $query = "select * from eatery where cuisine = :cuisine";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':cuisine', $cuisine);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;  
+}
+
+function filterPrice($price){
+  global $db;
+  $query = "select * from eatery where price = :price";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':price', $price);
+  $statement->execute();
+  $results = $statement->fetchAll();   // fetch()
+  $statement->closeCursor();
+  return $results;  
+}
+
 ?>

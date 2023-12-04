@@ -10,11 +10,35 @@ $password = $_COOKIE["password"];
 
 if (strlen($password) == 0 or strlen($user) == 0 or !checkUserPassword($user, $password)) {
     // Redirect the browser to another page using the header() function to specify the target URL
-    header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
+    //header('Location: https://www.cs.virginia.edu/~dch6auf/project/auth/login.php');
 }
 
 // fetch all eateries
 $list_of_eateries = fetchAllEateries();
+
+// filter by cuisine type function 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterCuisineBtn'])) {
+
+    $selectedCuisine = $_POST['cuisineDropdown'];
+
+    if ($selectedCuisine === "All") {
+        $list_of_eateries = getAllEateries();
+    } else {
+        $list_of_eateries = filterCuisine($selectedCuisine);
+    }
+}
+
+// filter by price function 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterPriceBtn'])) {
+
+    $selectedPrice = $_POST['priceDropdown'];
+
+    if ($selectedPrice === "All") {
+        $list_of_eateries = getAllEateries();
+    } else {
+        $list_of_eateries = filterPrice($selectedPrice);
+    }
+}
 
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -53,28 +77,41 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="container">
         <h1>Restaurant Buddy</h1>
 
-        <!-- <form name="mainForm" action="index.php" method="post">
-            <div class="row mb-3 mx-3">
-                Your name:
-                <input type="text" class="form-control" name="friendname" required value="<?php echo $_POST['friendname_to_update']; ?>" />
-            </div>
-            <div class="row mb-3 mx-3">
-                Major:
-                <input type="text" class="form-control" name="major" required value="<?php echo $_POST['major_to_update']; ?>" />
-            </div>
-            <div class="row mb-3 mx-3">
-                Year:
-                <input type="text" class="form-control" name="year" required value="<?php echo $_POST['year_to_update']; ?>" />
-            </div>
-            <div class="row mb-3 mx-3">
-                <input type="submit" value="Add friend" name="addBtn" class="btn btn-primary" title="Insert a friend into a friends table" />
-            </div>
-            <div class="row mb-3 mx-3">
-                <input type="submit" value="Confirm update" name="confirmUpdateBtn" class="btn btn-secondary" title="Update a friend into a friends table" />
-            </div>
-        </form> -->
+        <div class="filter-container">
+            <form method="post" action="index.php">
+                <label for="cuisineDropdown">Filter by Cuisine:</label>
+                <select name="cuisineDropdown" id="cuisineDropdown">
+                    <option value="All">All</option>
+                    <option value="American">American</option>
+                    <option value="Italian">Italian</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Indian">Korean</option>
+                    <option value="Japanese">Japanese</option>
+                    <option value="Thai">Thai</option>
+                    <option value="Mediterranean">Mediterranean</option>
+                    <option value="Mexican">Mexican</option>
+                    <option value="Fast Food">Fast Food</option>
 
-        <hr />
+                </select>
+                <button type="submit" name="filterCuisineBtn" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+
+        <div class="filter-container">
+            <form method="post" action="index.php">
+                <label for="priceDropdown">Filter by Price:</label>
+                <select name="priceDropdown" id="priceDropdown">
+                    <option value="All">All</option>
+                    <option value="$">$</option>
+                    <option value="$$">$$</option>
+                    <option value="$$$">$$$</option>
+
+                </select>
+                <button type="submit" name="filterPriceBtn" class="btn btn-primary">Filter</button>
+            </form>
+        </div>
+
+        <hr/>
         <h3>List of eateries</h3>
         <div class="row justify-content-center">
             <table class="w3-table w3-bordered w3-card-4 center" style="width:70%">
@@ -83,8 +120,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <th width="30%">Name
                         <th width="30%">Email
                         <th width="30%">Description
-                        <th>&nbsp;</th>
-                        <th>&nbsp;</th>
+                        <th width="30%">Cuisine
+                        <th width="30%">Price
                     </tr>
                 </thead>
 
@@ -95,6 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?php echo $eatery['name']; ?></td> <!-- column name -->
                             <td><?php echo $eatery['email']; ?></td>
                             <td><?php echo $eatery['description']; ?></td>
+                            <td><?php echo $eatery['cuisine']; ?></td>
+                            <td><?php echo $eatery['price']; ?></td>
+
                             <!-- <td>
                             <form action="simpleform.php" method="post">
                                 <input type="submit" value="Update" name="updateBtn" class="btn btn-secondary" />
