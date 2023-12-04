@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterCuisineBtn'])) {
     $selectedCuisine = $_POST['cuisineDropdown'];
 
     if ($selectedCuisine === "All") {
-        $list_of_eateries = getAllEateries();
+        $list_of_eateries = fetchAllEateries();
     } else {
         $list_of_eateries = filterCuisine($selectedCuisine);
     }
@@ -34,10 +34,42 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterPriceBtn'])) {
     $selectedPrice = $_POST['priceDropdown'];
 
     if ($selectedPrice === "All") {
-        $list_of_eateries = getAllEateries();
+        $list_of_eateries = fetchAllEateries();
     } else {
         $list_of_eateries = filterPrice($selectedPrice);
     }
+}
+
+$cafeJoinClicked = false;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cafeJoinBtn'])) {
+
+    $list_of_eateries = cafeJoin();
+    $cafeJoinClicked = true;
+
+}
+
+$restaurantJoinClicked = false;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['restaurantJoinBtn'])) {
+
+    $list_of_eateries = restaurantJoin();
+    $restaurantJoinClicked = true;
+    
+}
+
+$barJoinClicked = false;
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['barJoinBtn'])) {
+
+    $list_of_eateries = barJoin();
+    $barJoinClicked = true;
+    
+}
+
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['resetBtn'])) {
+    $list_of_eateries = fetchAllEateries();
 }
 
 
@@ -56,6 +88,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // var_dump($list_of_friends);
     }
 }
+
+// $cafeJoinClicked = false;
+// $test = "btn btn-outline-info";
+
+// if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cafeJoinBtn'])) {
+//     $cafeJoinClicked = !$cafeJoinClicked;
+//     if ($cafeJoinClicked) {
+//         $test = "btn btn-outline-danger";
+//         $list_of_eateries = cafeJoin();
+//     } else {
+//         $test = "btn btn-outline-info";
+//         $list_of_eateries = fetchAllEateries();
+//     }
+// }
+
 ?>
 
 <!DOCTYPE html>
@@ -110,6 +157,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <button type="submit" name="filterPriceBtn" class="btn btn-primary">Filter</button>
             </form>
         </div>
+        
+        <div class="d-flex">
+            <form method="post" action="index.php" class="mx-1">
+                <button type="submit" name="cafeJoinBtn" class="btn btn-info"">Show Cafes</button>
+            </form>
+
+            <form method="post" action="index.php" class="mx-1">
+                <button type="submit" name="restaurantJoinBtn" class="btn btn-info">Show Restaurants</button>
+            </form>
+
+            <form method="post" action="index.php" class="mx-1">
+                <button type="submit" name="barJoinBtn" class="btn btn-info">Show Bars</button>
+            </form>
+
+            <form method="post" action="index.php" class="mx-1">
+                <button type="submit" name="resetBtn" class="btn btn-secondary">Reset</button>
+            </form>
+
+        </div>
+            
 
         <hr/>
         <h3>List of eateries</h3>
@@ -122,6 +189,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                         <th width="30%">Description
                         <th width="30%">Cuisine
                         <th width="30%">Price
+                    
+                        <?php if ($cafeJoinClicked) : ?>
+                        <th width="30%">Wifi Available</th>
+                        <?php endif; ?>
+
+                        <?php if ($barJoinClicked) : ?>
+                        <th width="30%">Happy Hour Time</th>
+                        <?php endif; ?>
+
+                        <?php if ($restaurantJoinClicked) : ?>
+                        <th width="30%">Reservation Policy</th>
+                        <th width="30%">Dress Code</th>
+                        <?php endif; ?>
                     </tr>
                 </thead>
                 <style>
@@ -149,22 +229,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             <td><?php echo $eatery['cuisine']; ?></td>
                             <td><?php echo $eatery['price']; ?></td>
 
-                            <!-- <td>
-                            <form action="simpleform.php" method="post">
-                                <input type="submit" value="Update" name="updateBtn" class="btn btn-secondary" />
-                                <input type="hidden" name="friendname_to_update" value="<?php echo $friend['name']; ?>" />
-                                <input type="hidden" name="major_to_update" value="<?php echo $friend['major']; ?>" />
-                                <input type="hidden" name="year_to_update" value="<?php echo $friend['year']; ?>" />
-                            </form>
-                        </td>
-                        <td>
-                            <form action="simpleform.php" method="post">
-                                <input type="submit" name="deleteBtn" value="Delete" class="btn btn-danger" />
-                                <input type="hidden" name="friendname_to_delete" value="<?php echo $friend['name']; ?>" />
+                            <?php if ($cafeJoinClicked) : ?>
+                            <td><?php echo isset($eatery['wifi_available']) && $eatery['wifi_available'] == 1 ? 'Yes' : 'No'; ?></td>
+                            <?php endif; ?>  
 
+                            <?php if ($barJoinClicked) : ?>
+                            <td><?php echo $eatery['happy_hour'] ?></td>
+                            <?php endif; ?>  
 
-                            </form>
-                        </td> -->
+                            <?php if ($restaurantJoinClicked) : ?>
+                            <td><?php echo $eatery['reservation_policy'] ?></td>
+                            <td><?php echo $eatery['dress_code'] ?></td>
+                            <?php endif; ?>  
 
                         </tr>
                     
