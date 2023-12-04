@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST" && strlen($_POST['username']) > 0 && st
                     setcookie('password', $password, time() + 3600, '/', '.virginia.edu');    
 
                     // Redirect the browser to another page using the header() function to specify the target URL
-                    //header('Location: http://localhost/cs4750/restaurant-buddy/index.php');
+                    header('Location: http://www.cs.virginia.edu/~dch6auf/project/index.php');
                 }
             }
         }

@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterCuisineBtn'])) {
     $selectedCuisine = $_POST['cuisineDropdown'];
 
     if ($selectedCuisine === "All") {
-        $list_of_eateries = getAllEateries();
+        $list_of_eateries = fetchAllEateries();
     } else {
         $list_of_eateries = filterCuisine($selectedCuisine);
     }
@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['filterPriceBtn'])) {
     $selectedPrice = $_POST['priceDropdown'];
 
     if ($selectedPrice === "All") {
-        $list_of_eateries = getAllEateries();
+        $list_of_eateries = fetchAllEateries();
     } else {
         $list_of_eateries = filterPrice($selectedPrice);
     }
