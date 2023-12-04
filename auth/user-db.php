@@ -11,7 +11,6 @@ function registerUser($username, $passwordHash, $full_name, $email) {
   $statement->bindValue(':email', $email);
   $result = $statement->execute();
   $statement->closeCursor();
-  echo($result);
   return $result;
 }
 
