@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     updateUserProfile($profile_username, $full_name, $email, $expertise, $bio); // call function to update user profile
 
     // Redirect the browser to another page using the header() function to specify the target URL
-    // header('Location: http://www.cs.virginia.edu/~dch6auf/project/auth/account.php?username=' + $profile_username);
+    header('Location: http://www.cs.virginia.edu/~dch6auf/project/auth/account.php?username=' . $profile_username);
 }
 
 ?>

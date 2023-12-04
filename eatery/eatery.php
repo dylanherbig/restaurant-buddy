@@ -3,7 +3,6 @@ require("../connect-db.php");
 require("../auth/user-db.php");
 require("eatery-db.php");
 require("../header.php");
-require("../auth/user-db.php");
 
 // check if user is logged in, if not redirect to login.php
 $user = $_COOKIE["user"];

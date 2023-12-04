@@ -46,6 +46,7 @@ function updateUserProfile($username, $full_name, $email, $expertise, $bio) {
   $statement->execute();
   $statement->closeCursor();
 
+  echo("made it here");
 
   $query = 'update reviewer set expertise=:expertise where username=:username';
   $statement = $db->prepare($query);
