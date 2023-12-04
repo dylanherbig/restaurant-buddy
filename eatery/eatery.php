@@ -3,6 +3,7 @@ require("../connect-db.php");
 require("../auth/user-db.php");
 require("eatery-db.php");
 require("../header.php");
+require("../auth/user-db.php");
 
 // check if user is logged in, if not redirect to login.php
 $user = $_COOKIE["user"];
@@ -299,6 +300,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
                 ?>
             </tbody>
         </table>
+        <!--<p>Want to update an existing Review? <a href="update-review.php" style="color: hsl(158, 39%, 34%);">Click here!</a></p>-->
 
 
 

@@ -154,6 +154,21 @@ function addReview($ID, $reviewer_username, $eateryID, $createdAt, $comment, $nu
   $statement->closeCursor();
 }
 
+function addDinesAt($eateryID, $username, $date_time_when){
+  global $db;
+  $query = "insert into review (ID, reviewer_username, eateryID, createdAt, comment, number_rating)
+  VALUES (:ID, :reviewer_username, :eateryID, :createdAt, :comment, :number_rating)";
+  $statement = $db->prepare($query); 
+  $statement->bindValue(':ID', $ID);
+  $statement->bindValue(':reviewer_username', $reviewer_username);
+  $statement->bindValue(':eateryID', $eateryID);
+  $statement->bindValue(':createdAt', $createdAt);
+  $statement->bindValue(':comment', $comment);
+  $statement->bindValue(':number_rating', $number_rating);
+  $statement->execute();
+  $statement->closeCursor();
+}
+
 function getMaxIDFromReview(){
   global $db;
   $query = "select MAX(ID) FROM review";
@@ -254,6 +269,20 @@ function updateEatery($name, $email, $new_description, $new_cuisine, $new_street
             $statement->closeCursor();
         }    
     }
+}
+
+function updateReview($reviewID, $numberRating) {
+  global $db;
+
+  $query = "CALL update_rating(:newRating, :reviewID)";
+  $statement = $db->prepare($query);
+  $statement->bindValue(':reviewID', $reviewID);
+  $statement->bindValue(':newRating', $numberRating);
+  $statement->execute();
+  $results = $statement->fetchAll();   
+  $statement->closeCursor();
+
+  return $results;
 }
 
 function addBar($id, $happy_hour){
